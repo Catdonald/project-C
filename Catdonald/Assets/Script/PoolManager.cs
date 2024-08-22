@@ -29,9 +29,10 @@ public class PoolManager : MonoBehaviour
 
         foreach (GameObject obj in pools[index])
         {
-            if (obj != obj.activeSelf)
+            if (!obj.activeSelf)
             {
                 select = obj; 
+                obj.SetActive(true);
                 break;
             }
         }
@@ -45,5 +46,9 @@ public class PoolManager : MonoBehaviour
         return select;
     }
 
-
+    public void Return(GameObject obj)
+    {
+        obj.SetActive(false);
+        obj.transform.SetParent(this.transform);
+    }
 }

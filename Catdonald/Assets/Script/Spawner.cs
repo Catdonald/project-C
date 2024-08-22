@@ -1,19 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Security.Cryptography;
 using UnityEngine;
 
+/// <summary>
+/// 240822 오수안
+/// 버거를 생성하고 플레이어에게 주는 오브젝트 유형
+/// </summary>
 public class Spawner : MonoBehaviour
 {
     bool isSpawning;
-    Stack<GameObject> burgerStack;
+    public Stack<GameObject> burgerStack;
 
     [Header("spawn info")]
     public int foodType;
     public int maxCount;
     public int foodCount;
     public float spawnSpeed;
+    public float foodHeight;
 
     void Awake()
     {
@@ -22,8 +28,13 @@ public class Spawner : MonoBehaviour
 
         foodType = 0;
         maxCount = 3;
-        foodCount = 0;
         spawnSpeed = 3f;
+    }
+    void OnEnable()
+    {
+        GameObject food = GameManager.instance.PoolManager.Get(foodType);
+        foodHeight = food.GetComponent<Renderer>().bounds.size.y;
+        GameManager.instance.PoolManager.Return(food);
     }
 
     void Start()
@@ -33,7 +44,7 @@ public class Spawner : MonoBehaviour
 
     void Update()
     {
-        if (foodCount < maxCount && !isSpawning)
+        if (burgerStack.Count < maxCount && !isSpawning)
         {
             isSpawning = true;
             StartCoroutine(SpawnFood(foodType));
@@ -46,14 +57,11 @@ public class Spawner : MonoBehaviour
 
         GameObject food = GameManager.instance.PoolManager.Get(index);
 
-        var height = food.GetComponent<Renderer>().bounds.size.y;
-
         Vector3 pos = transform.position;
-        pos.y = transform.position.y + height * burgerStack.Count;
+        pos.y = transform.position.y + foodHeight * burgerStack.Count;
         food.transform.position = pos;
 
         burgerStack.Push(food);
-        foodCount = burgerStack.Count;
 
         isSpawning = false;
     }
