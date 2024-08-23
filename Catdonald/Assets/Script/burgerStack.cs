@@ -9,13 +9,14 @@ using UnityEngine;
 
 public class burgerStack : MonoBehaviour
 {
-    public Stack<GameObject> movingStack;
+    public Stack<GameObject> playerStack;
     GameObject obj;
     Stack<GameObject> triggeredStack;
     float foodsize;
 
     bool isInArea;
 
+    [Header("player stack info")]
     int typeNow;
     int stackMax;
     int stackNow;
@@ -26,7 +27,7 @@ public class burgerStack : MonoBehaviour
     {
         isInArea = false;
 
-        movingStack = new Stack<GameObject>();
+        playerStack = new Stack<GameObject>();
         triggeredStack = null;
         foodsize = 0;
 
@@ -57,9 +58,9 @@ public class burgerStack : MonoBehaviour
         if (triggeredStack.Count != 0)
         {
             var burger = triggeredStack.Pop();
-            movingStack.Push(burger);
+            playerStack.Push(burger);
             Vector3 pos = transform.position;
-            pos.y = pos.y / 2 + movingStack.Count * foodsize;
+            pos.y = pos.y / 2 + playerStack.Count * foodsize;
             burger.transform.position = pos;
             burger.transform.SetParent(this.transform);
         }
@@ -87,9 +88,9 @@ public class burgerStack : MonoBehaviour
 
     public void TrySetBurger()
     {
-        if (movingStack.Count > 0)
+        if (playerStack.Count > 0)
         {
-            var burger = movingStack.Pop();
+            var burger = playerStack.Pop();
             triggeredStack.Push(burger);
 
             Vector3 pos = obj.transform.position;

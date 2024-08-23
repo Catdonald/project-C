@@ -16,10 +16,10 @@ public class Spawner : MonoBehaviour
 
     [Header("spawn info")]
     public int foodType;
-    public int maxCount;
-    public int foodCount;
-    public float spawnSpeed;
     public float foodHeight;
+    public int countMax;
+    public int countNow;
+    public float spawnSpeed;
 
     void Awake()
     {
@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour
         burgerStack = new Stack<GameObject>();
 
         foodType = 0;
-        maxCount = 3;
+        countMax = 3;
         spawnSpeed = 3f;
     }
     void OnEnable()
@@ -44,7 +44,7 @@ public class Spawner : MonoBehaviour
 
     void Update()
     {
-        if (burgerStack.Count < maxCount && !isSpawning)
+        if (burgerStack.Count < countMax && !isSpawning)
         {
             isSpawning = true;
             StartCoroutine(SpawnFood(foodType));
@@ -57,9 +57,8 @@ public class Spawner : MonoBehaviour
 
         GameObject food = GameManager.instance.PoolManager.Get(index);
 
-        Vector3 pos = transform.position;
-        pos.y = transform.position.y + foodHeight * burgerStack.Count;
-        food.transform.position = pos;
+        food.transform.position = 
+            transform.position + Vector3.up * foodHeight * burgerStack.Count;
 
         burgerStack.Push(food);
 
