@@ -464,3 +464,16 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,csharp
+Catdonald/Library/ArtifactDB
+
+Catdonald/Library/Search/transactions.db
+
+Catdonald/Library/SourceAssetDB
+
+Catdonald/Temp/__Backupscenes/0.backup
+
+Catdonald/Temp/FSTimeGet-bd28f3ebce5b3f342a0f5e861b801b60
+
+Catdonald/Temp/UnityLockfile
+
+Catdonald/Temp/workerlic
